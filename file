@@ -1,0 +1,201 @@
+# Իրականացնել Vector կլասը, որը մաթեամտիկական վեկտորի ֆունկցիոնալությունը պետք է 
+# ապահովի (օգտագործել opertors.txt ֆայլում առկա բոլոր օպերատորները)։
+
+class Vector:
+    def __init__(self, *args):
+        self.args = args
+
+
+    def __add__(self, other):
+        if isinstance(other, Vector):
+            if len(self.args) == len(other.args):
+                res = []
+                for i in range(len(self.args)):
+                    res.append(self.args[i] + other.args[i])
+                return Vector(*res)
+            else:
+                raise ValueError("Vectors must be the same length.")
+        if isinstance(other, (float, int)):
+            res = [i + other for i in self.args]
+            return Vector(*res)
+        raise TypeError(f"Unsupported operand type for +: Vector and {type(other).__name__}")
+
+
+    def __iadd__(self, other):
+        if isinstance(other, Vector):
+            if len(self.args) == len(other.args):
+                self.args = list(self.args)
+                for i in range(len(self.args)):
+                    self.args[i] += other.args[i]
+                self.args = tuple(self.args)
+                return self
+            else:
+                raise ValueError("Vectors must be the same length.")
+        if isinstance(other, (float, int)):
+            self.args = list(self.args)
+            for i in range(len(self.args)):
+                self.args[i] += other
+            self.args = tuple(self.args)
+            return self
+        raise TypeError(f"Unsupported operand type for +: Vector and {type(other).__name__}")
+
+
+    def __sub__(self, other):
+        if isinstance(other, Vector):
+            if len(self.args) == len(other.args):
+                res = []
+                for i in range(len(self.args)):
+                    res.append(self.args[i] - other.args[i])
+                return Vector(*res)
+            else:
+                raise ValueError("Vectors must be the same length.")
+        if isinstance(other, (float, int)):
+            res = [i - other for i in self.args]
+            return Vector(*res)
+        raise TypeError(f"Unsupported operand type for +: Vector and {type(other).__name__}")
+
+
+    def __isub__(self, other):
+        if isinstance(other, Vector):
+            if len(self.args) == len(other.args):
+                self.args = list(self.args)
+                for i in range(len(self.args)):
+                    self.args[i] -= other.args[i]
+                self.args = tuple(self.args)
+                return self
+            else:
+                raise ValueError("Vectors must be the same length.")
+        if isinstance(other, (float, int)):
+            self.args = list(self.args)
+            for i in range(len(self.args)):
+                self.args[i] -= other
+            self.args = tuple(self.args)
+            return self
+        raise TypeError(f"Unsupported operand type for +: Vector and {type(other).__name__}")
+
+
+    def __mul__(self, other):
+        if isinstance(other, Vector):
+            if len(self.args) == len(other.args):
+                res = 0
+                for i in range(len(self.args)):
+                    res += self.args[i] * other.args[i]
+                return res
+            else:
+                raise ValueError("Vectors must be the same length.")
+        if isinstance(other, (float, int)):
+            res = [i * other for i in self.args]
+            return Vector(*res)
+        raise TypeError(f"Unsupported operand type for +: Vector and {type(other).__name__}")
+
+    def __imul__(self, other):
+        if isinstance(other, Vector):
+            raise NotImplementedError("In-place multiplication  not supported for Vectors.")
+        if isinstance(other, (float, int)):
+            self.args = list(self.args)
+            for i in range(len(self.args)):
+                self.args[i] *= other
+            self.args = tuple(self.args)
+            return self
+        raise TypeError(f"Unsupported operand type for +: Vector and {type(other).__name__}")
+
+    def __truediv__(self, other):
+        raise NotImplementedError("True division not supported for Vectors.")
+
+    def __itruediv__(self, other):
+        raise NotImplementedError("In-place true division not supported for Vectors.")
+
+    def __floordiv__(self, other):
+        raise NotImplementedError("Floor division not supported for Vectors.")
+
+    def __ifloordiv__(self, other):
+        raise NotImplementedError("In-place floor division not supported for Vectors.")
+
+    def __mod__(self, other):
+        raise NotImplementedError("Modulus operation not supported for Vectors.")
+
+    def __imod__(self, other):
+        raise NotImplementedError("In-place modulus operation not supported for Vectors.")
+
+    def __divmod__(self, other):
+        raise NotImplementedError("divmod() not supported for Vectors.")
+
+    def __idivmod__(self, other):
+        raise NotImplementedError("In-place divmod() not supported for Vectors.")
+
+    def __pow__(self, other, modulo=None):
+        raise NotImplementedError("Exponentiation not supported for Vectors.")
+
+    def __ipow__(self, other, modulo=None):
+        raise NotImplementedError("In-place exponentiation not supported for Vectors.")
+
+    def __neg__(self):
+        raise NotImplementedError("unary negation not supported for Vectors.")
+
+    def __pos__(self):
+        raise NotImplementedError("Unary positive not supported for Vectors.")
+
+    def __abs__(self):
+        raise NotImplementedError("Built-in abs() function not supported for Vectors.")
+
+    def __str__(self):
+        return f"{self.args}"
+
+    def __repr__(self):
+        return f"Vector{self.args}"
+
+    def __format__(self, format_spec):
+        raise NotImplementedError("Built-in format() function not supported for Vectors.")
+
+    def __len__(self):
+        return len(self.args)
+
+    def __eq__(self, other):
+        if (isinstance(other, Vector) and len(self.args) == len(other.args) and
+                (sum([i**2 for i in self.args]))**0.5 == (sum([i**2 for i in other.args]))**0.5):
+            return True
+        return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __lt__(self, other):
+        if (isinstance(other, Vector) and len(self.args) == len(other.args) and
+                (sum([i ** 2 for i in self.args])) ** 0.5 < (sum([i ** 2 for i in other.args])) ** 0.5):
+            return True
+        return False
+
+    def __gt__(self, other):
+        if (isinstance(other, Vector) and len(self.args) == len(other.args) and
+                (sum([i ** 2 for i in self.args])) ** 0.5 > (sum([i ** 2 for i in other.args])) ** 0.5):
+            return True
+        return False
+
+    def __le__(self, other):
+        if (isinstance(other, Vector) and len(self.args) == len(other.args) and
+                (sum([i ** 2 for i in self.args])) ** 0.5 <= (sum([i ** 2 for i in other.args])) ** 0.5):
+            return True
+        return False
+
+    def __ge__(self, other):
+        if (isinstance(other, Vector) and len(self.args) == len(other.args) and
+                (sum([i ** 2 for i in self.args])) ** 0.5 >= (sum([i ** 2 for i in other.args])) ** 0.5):
+            return True
+        return False
+
+    def __getitem__(self, key):
+        raise TypeError("Vectors do not support item access.")
+
+    def __setitem__(self, key, value):
+        raise TypeError("Vectors do not support item assignment.")
+
+    def __delitem__(self, key):
+        raise TypeError("Vectors do not support item deletion.")
+
+    def __contains__(self, item):
+        raise TypeError("Vectors do not support membership testing.")
+
+
+
+
+
